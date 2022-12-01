@@ -1,11 +1,16 @@
 #!/bin/bash
 
-#This script receives a path as argument
+#This script receives directory paths as arguments
 
-path="$1"
-echo "Printing files from $path"
-files=$(ls "$path")
-for file in $files
+directory_list=("$@")
+for directory in "${directory_list[@]}"
 do
-    echo "$file"
+    cd "$directory" || exit
+    echo "Printing files from $directory"
+    for file in *
+    do
+        [ -e "$file" ] || continue
+        echo "$file"
+    done
+    echo
 done
